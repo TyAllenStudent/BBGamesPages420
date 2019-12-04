@@ -12,6 +12,14 @@ namespace BBGamesPages420.Pages.Games
 {
     public class IndexModel : PageModel
     {
+
+        public enum SortByTime
+        {
+            AllGames,
+            FutureGames,
+            PastGames
+        }
+
         private readonly BBGamesPages420.Data.ApplicationDbContext _context;
 
         public IndexModel(BBGamesPages420.Data.ApplicationDbContext context)
@@ -19,11 +27,27 @@ namespace BBGamesPages420.Pages.Games
             _context = context;
         }
 
+        public SortByTime Sorting { get; set; }
+
         public IList<Game> Game { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(SortByTime sorting = SortByTime.FutureGames)
         {
-            Game = await _context.Game.ToListAsync();
+            Sorting = sorting;
+
+            if (sorting == SortByTime.FutureGames)
+            {
+
+                Game = await _context.Game.Where(f => f.GameDate > DateTime.Today).ToListAsync();
+
+            }
+
+            else
+            {
+                Game = await _context.Game.ToListAsync();
+            }
+
         }
+
     }
 }

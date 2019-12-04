@@ -32,7 +32,17 @@ namespace BBGamesPages420
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddRazorPages();
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AreYouDaBaws???", policy => policy.RequireUserName("dingle@dingle.dingle"));
+            });
+
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Games");
+                options.Conventions.AuthorizePage("/Games/Create", "AreYouDaBaws???");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

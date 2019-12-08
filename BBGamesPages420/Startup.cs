@@ -35,13 +35,13 @@ namespace BBGamesPages420
             
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AreYouDaBaws???", policy => policy.RequireUserName("dingle@dingle.dingle"));
+                options.AddPolicy("AdminCheck", policy => policy.RequireUserName("dingle@dingle.dingle"));
             });
 
             services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizeFolder("/Games");
-                options.Conventions.AuthorizePage("/Games/Create", "AreYouDaBaws???");
+                options.Conventions.AuthorizePage("/Games/Create", "AdminCheck");
             });
         }
 
